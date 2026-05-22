@@ -3,6 +3,13 @@
 // 2. 解構取出需要的東西
 import { useAuthForm } from '../composables/useAuthForm'
 const { email, password, message, onSubmit } = useAuthForm()
+const emit = defineEmits<{ loginSuccess: [] }>()
+function handleSubmit() {
+    onSubmit()
+    if (message.value === '登入成功') {
+        emit('loginSuccess')
+    }
+}
 </script>
 
 
@@ -10,9 +17,9 @@ const { email, password, message, onSubmit } = useAuthForm()
     <!-- 
         @submit.prevent：監聽表單送出事件
         .prevent：阻止瀏覽器預設行為（防止頁面重新整理）
-        "onSubmit"：送出時執行 methods 裡的 onSubmit 函式
+        "handleSubmit"：送出時執行 methods 裡的 handleSubmit 函式
     -->
-    <form @submit.prevent="onSubmit">
+    <form @submit.prevent="handleSubmit">
 
         <!-- 
             label for="email"：點這段文字，游標會自動跳到 id="email" 的 input
@@ -42,4 +49,51 @@ const { email, password, message, onSubmit } = useAuthForm()
     </form>
 </template>
 
-<style scoped></style>
+<style scoped>
+form {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 360px;
+    padding: 24px;
+    border: 1px solid #dce3ed;
+    border-radius: 8px;
+    background-color: #ffffff;
+}
+
+label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+}
+
+input {
+    padding: 8px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+input:focus {
+    border-color: #2563eb;
+}
+
+button {
+    padding: 10px;
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: #1d4ed8;
+}
+</style>

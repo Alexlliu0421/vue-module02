@@ -1,12 +1,6 @@
 <script setup lang="ts">
 //保單查詢結果
-// 1. 定義 PolicySummary 型別（上面那四個欄位）
-interface PolicySummary {
-    policyNo: string           // 保單號
-    policyHolderName: string   // 保戶姓名
-    productCode: string        // 商品代碼
-    policyStatus: string       // 保單狀態
-}
+import type { PolicySummary } from '@/types/insurance'
 
 
 // 2. 定義 props：policy（PolicySummary | null）和 loading（boolean）
@@ -20,15 +14,48 @@ const props = defineProps<{
 
 <template>
     <!-- 3. loading 時顯示「資料讀取中...」 -->
-     <div v-if="loading">資料讀取中...</div>
+     <div v-if="loading" class="loading">資料讀取中...</div>
     <!-- 4. policy 有值時顯示四個欄位 -->
-     <div v-else-if="props.policy">
-        <p>保單號碼：{{ props.policy.policyNo }}</p>
-        <p>保戶姓名：{{ props.policy.policyHolderName }}</p>
-        <p>商品代碼：{{ props.policy.productCode }}</p>
-        <p>保單狀態：{{ props.policy.policyStatus }}</p>
+     <div v-else-if="props.policy" class="card">
+        <p>保單號碼:<span>{{ props.policy.policyNo }}</span></p>
+        <p>保戶姓名:<span>{{ props.policy.policyHolderName }}</span></p>
+        <p>商品代碼:<span>{{ props.policy.productCode }}</span></p>
+        <p>保單狀態:<span>{{ props.policy.policyStatus }}</span></p>
      </div>
 
     <!-- 5. 都沒有時顯示「尚未查詢資料」 -->
-    <div v-else>尚未查詢資料</div>
+    <div v-else class="empty">尚未查詢資料</div>
 </template>
+
+<style scoped>
+.card {
+  margin-top: 16px;
+  padding: 20px 24px;
+  border: 1px solid #dce3ed;
+  border-radius: 8px;
+  background-color: #f8fafc;
+}
+
+.card p {
+  margin: 8px 0;
+  font-size: 14px;
+  color: #374151;
+}
+
+.card p span {
+  font-weight: 600;
+  color: #111827;
+}
+
+.loading {
+  margin-top: 16px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.empty {
+  margin-top: 16px;
+  font-size: 14px;
+  color: #9ca3af;
+}
+</style>

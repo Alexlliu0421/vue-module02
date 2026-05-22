@@ -17,7 +17,7 @@ export function useAuthForm() {
     const message = ref('')
 
     function onSubmit() {
-    console.log(email.value, password.value, message.value)
+    
 
     //    - 判斷帳密是否正確（user@example.com / 123456）
     if (email.value === 'user@example.com' && password.value === '123456') {

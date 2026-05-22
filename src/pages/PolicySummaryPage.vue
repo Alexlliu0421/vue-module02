@@ -6,33 +6,31 @@ import { ref } from 'vue'
 import PageSectionTitle from '@/components/shared/PageSectionTitle.vue'
 import PolicySearchForm from '@/components/policy/PolicySearchForm.vue'
 import PolicySummaryCard from '@/components/policy/PolicySummaryCard.vue'
-// 3. 定義 PolicySummary 型別（跟 Card 一樣的四個欄位）
-interface PolicySummary {
-    policyNo: string           // 保單號
-    policyHolderName: string   // 保戶姓名
-    productCode: string        // 商品代碼
-    policyStatus: string       // 保單狀態
-}
+import type { PolicySummary } from '@/types/insurance'
 // 4. 用 ref 建立 policy（PolicySummary | null，初始 null）
 const policy = ref<PolicySummary | null>(null)
+const hasSearched = ref(false)
 // 5. 用 ref 建立 loading（boolean，初始 false）
 const loading = ref(false)
 // 6. 用 ref 建立 errorMessage（string，初始空字串）
 const errorMessage = ref("")
 // 7. 定義 search 函式，接收 policyNo 參數
 function search(policyNo: string) {
+
+    hasSearched.value = true
     loading.value = true;
     errorMessage.value = "";
+    const normalized= policyNo.trim().toUpperCase();
     // 假資料：直接給 policy 一筆假資料（不用真的打 API）
     setTimeout(() => {
-        if (policyNo === "A001") {
+        if (normalized === "A001") {
             policy.value = {
                 policyNo: "A001",
                 policyHolderName: "王小明",
                 productCode: "P12345",
                 policyStatus: "有效"
             }
-        } else if (policyNo === "A002") {
+        } else if (normalized === "A002") {
             policy.value = {
                 policyNo: "A002",
                 policyHolderName: "李小華",
@@ -64,5 +62,5 @@ function search(policyNo: string) {
     <!-- 10. 有 errorMessage 時顯示錯誤訊息 -->
     <div v-if="errorMessage" style="color: red; margin-top: 10px;">{{ errorMessage }}</div>
     <!-- 11. PolicySummaryCard，傳入 policy 和 loading -->
-    <PolicySummaryCard :policy="policy" :loading="loading" />
+    <PolicySummaryCard v-if="hasSearched && !errorMessage" :policy="policy" :loading="loading" />
 </template>

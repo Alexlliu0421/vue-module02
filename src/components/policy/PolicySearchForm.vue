@@ -36,3 +36,54 @@ const onSubmit = () => {
     <!-- 7. policyNo 的 label + input，v-model 綁定 -->
     <!-- 8. 送出按鈕，loading 時 disabled 且文字改為「查詢中...」 -->
 </template>
+
+<style scoped>
+form {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  white-space: nowrap;
+}
+
+input {
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+  width: 200px;
+}
+
+input:focus {
+  border-color: #2563eb;
+}
+
+button {
+  padding: 8px 20px;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+button:hover {
+  background-color: #1d4ed8;
+}
+
+button:disabled {
+  background-color: #93c5fd;
+  cursor: not-allowed;
+}
+</style>
